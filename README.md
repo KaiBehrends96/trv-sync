@@ -38,7 +38,7 @@ dozens of offsets per minute).
 | write rate limit | 10 min | min time between offset writes per TRV |
 | quantize | 0.1 | offsets land on the register grid |
 | staleness | 30 min | temperature older than this is not a control input |
-| poll interval | 60 s | decision cadence |
+| poll interval | 60 s (pilot: 5 s) | decision cadence |
 | push mute | 3 fails | a TRV that fails setpoint pushes stops getting them until its next observed change |
 
 ## Fallback when the external sensor is missing/stale

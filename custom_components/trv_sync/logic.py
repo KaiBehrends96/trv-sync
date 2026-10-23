@@ -236,12 +236,18 @@ def validate_options(
     staleness_minutes: float,
     update_interval_seconds: float,
 ) -> None:
-    """Guard config values; raises a typed error naming the offending field."""
+    """Guard config values; raises a typed error naming the offending field.
+
+    The update interval floor is deliberately low (4.0): the scraper reads
+    in-process HA state only, never the radio, so a 5 s cadence costs nothing
+    extra on the Zigbee bus; write guards (deadband, rate limit, same-target
+    checks) are what prevent hammering, not the poll rate itself.
+    """
     for value, minimum, name in (
         (deadband, 0.0, "deadband"),
         (write_rate_limit_minutes, 0.0, "write_rate_limit_minutes"),
         (staleness_minutes, 0.0, "staleness_minutes"),
-        (update_interval_seconds, 9.0, "update_interval_seconds"),
+        (update_interval_seconds, 4.0, "update_interval_seconds"),
     ):
         if not isinstance(value, (int, float)) or isinstance(value, bool) or value <= minimum:
             raise TrvSyncLogicError(

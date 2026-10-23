@@ -235,7 +235,7 @@ class OptionsTest(unittest.TestCase):
             {"deadband": 0.0},
             {"write_rate_limit_minutes": 0},
             {"staleness_minutes": 0},
-            {"update_interval_seconds": 5},
+            {"update_interval_seconds": 2},
         ):
             with self.assertRaises(TrvSyncLogicError):
                 logic.validate_options(
@@ -244,6 +244,9 @@ class OptionsTest(unittest.TestCase):
                     bad.get("staleness_minutes", 30.0),
                     bad.get("update_interval_seconds", 60),
                 )
+
+    def test_update_interval_five_seconds_allowed(self):
+        logic.validate_options(0.3, 10.0, 30.0, 5)
 
     def test_room_config_build_defaults(self):
         cfg = RoomConfig.build(

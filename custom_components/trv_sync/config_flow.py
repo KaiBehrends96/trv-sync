@@ -64,7 +64,7 @@ def _room_schema(defaults: dict) -> dict:
             default=defaults.get("update_interval_seconds", DEFAULT_UPDATE_INTERVAL_SECONDS),
         ): selector.NumberSelector(
             selector.NumberSelectorConfig(
-                min=10, max=600, step=5, mode=selector.NumberSelectorMode.BOX
+                min=5, max=600, step=5, mode=selector.NumberSelectorMode.BOX
             )
         ),
     }
