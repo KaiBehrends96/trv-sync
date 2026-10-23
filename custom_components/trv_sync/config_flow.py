@@ -30,10 +30,10 @@ def _room_schema(defaults: dict) -> dict:
             if "name" not in defaults
             else {}
         ),  # options flow does not allow renaming
-        vol.Required("trvs"): selector.EntitySelector(
+        vol.Required("trvs", default=defaults.get("trvs")): selector.EntitySelector(
             selector.EntitySelectorConfig(domain=["climate"], multiple=True)
         ),
-        vol.Optional("temp_sensor"): selector.EntitySelector(
+        vol.Optional("temp_sensor", default=defaults.get("temp_sensor")): selector.EntitySelector(
             selector.EntitySelectorConfig(domain=["sensor"])
         ),
         vol.Required("deadband", default=defaults.get("deadband", DEFAULT_DEADBAND)): (
