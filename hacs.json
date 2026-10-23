@@ -1,5 +1,6 @@
 {
   "name": "TRV Sync",
   "render_readme": true,
+  "version": "1.0.0",
   "homeassistant": "2026.10.0"
 }
