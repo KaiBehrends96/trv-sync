@@ -1,0 +1,38 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "New TRV Sync room",
+        "description": "One virtual room thermostat: pick the real TRV climate entities, optionally an external room temperature sensor, and the anti-oscillation guards.",
+        "data": {
+          "name": "Room name",
+          "trvs": "TRV climate entities",
+          "temp_sensor": "External temperature sensor (optional)",
+          "deadband": "Deadband (K, no offset write below this change)",
+          "write_rate_limit_minutes": "Rate limit: minutes between offset writes per TRV",
+          "staleness_minutes": "Staleness: a temperature older than this (minutes) is not used",
+          "update_interval_seconds": "Poll interval in seconds"
+        }
+      }
+    },
+    "error": {
+      "invalid_config": "Invalid configuration: the room needs a name and at least one TRV climate entity."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Edit TRV Sync room",
+        "description": "Change the entity list, the external sensor or the guard values. Saving reloads this room.",
+        "data": {
+          "trvs": "TRV climate entities",
+          "temp_sensor": "External temperature sensor (optional)",
+          "deadband": "Deadband (K)",
+          "write_rate_limit_minutes": "Rate limit (minutes per TRV)",
+          "staleness_minutes": "Staleness (minutes)",
+          "update_interval_seconds": "Poll interval (seconds)"
+        }
+      }
+    }
+  }
+}

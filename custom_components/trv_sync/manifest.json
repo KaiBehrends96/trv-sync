@@ -1,0 +1,13 @@
+{
+  "domain": "trv_sync",
+  "name": "TRV Sync",
+  "codeowners": ["@HomeLab"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://git.rudolf-beeer.duckdns.org/HomeLab/ha-trv-sync",
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://git.rudolf-beeer.duckdns.org/HomeLab/ha-trv-sync/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}
