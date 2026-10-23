@@ -75,3 +75,9 @@ external sensor, guards). Development repo:
 ## Status
 
 1.0.0, first release 2026-10-23. Pilot room: HeizZimmer1.
+
+The full planning record is versioned in the repo at
+`docs/PLAN-2026-10-23-trv-sync.md`: the requirements, the decisions with their
+reasons, and the acceptance criteria. Check future changes against that file
+before they land; the acceptance criteria section doubles as the release
+checklist.
