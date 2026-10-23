@@ -1,38 +1,55 @@
 {
-  "config": {
-    "step": {
-      "user": {
-        "title": "New TRV Sync room",
-        "description": "One virtual room thermostat: pick the real TRV climate entities, optionally an external room temperature sensor, and the anti-oscillation guards.",
-        "data": {
-          "name": "Room name",
-          "trvs": "TRV climate entities",
-          "temp_sensor": "External temperature sensor (optional)",
-          "deadband": "Deadband (K, no offset write below this change)",
-          "write_rate_limit_minutes": "Rate limit: minutes between offset writes per TRV",
-          "staleness_minutes": "Staleness: a temperature older than this (minutes) is not used",
-          "update_interval_seconds": "Poll interval in seconds"
+    "config": {
+        "step": {
+            "user": {
+                "title": "Add room",
+                "description": "One entry per room: pick the real TRV climate entities, optionally an external temperature sensor, and set the guards that throttle offset writes.",
+                "data": {
+                    "name": "Room name",
+                    "trvs": "TRV climate entities",
+                    "temp_sensor": "External temperature sensor",
+                    "deadband": "Deadband",
+                    "write_rate_limit_minutes": "Write rate limit",
+                    "staleness_minutes": "Staleness threshold",
+                    "update_interval_seconds": "Poll interval"
+                },
+                "data_description": {
+                    "name": "Shown in the UI and used as the entry name. Must be unique; cannot be changed later.",
+                    "trvs": "The real radiator thermostats of this room. All listed TRVs follow one shared target; 1-2 devices is the intended range.",
+                    "temp_sensor": "Optional: an absolute temperature measurement for the room. Set it to calibrate against the real room temperature; leave empty to use the mean of the TRV internal sensors plus the trim.",
+                    "deadband": "Smallest correction that triggers an offset write, in K. Smaller mismatches are ignored so the TRVs do not flap.",
+                    "write_rate_limit_minutes": "At most one offset write per TRV in this many minutes.",
+                    "staleness_minutes": "A measurement older than this many minutes counts as stale and causes no calibration writes. Setpoint and offset registers are exempt.",
+                    "update_interval_seconds": "How often the coordinator reads the TRVs and sensors and refreshes the virtual climate."
+                }
+            }
+        },
+        "error": {
+            "invalid_config": "These values do not form a valid room configuration. Check the selected entities."
         }
-      }
     },
-    "error": {
-      "invalid_config": "Invalid configuration: the room needs a name and at least one TRV climate entity."
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Edit TRV Sync room",
-        "description": "Change the entity list, the external sensor or the guard values. Saving reloads this room.",
-        "data": {
-          "trvs": "TRV climate entities",
-          "temp_sensor": "External temperature sensor (optional)",
-          "deadband": "Deadband (K)",
-          "write_rate_limit_minutes": "Rate limit (minutes per TRV)",
-          "staleness_minutes": "Staleness (minutes)",
-          "update_interval_seconds": "Poll interval (seconds)"
+    "options": {
+        "step": {
+            "init": {
+                "title": "Configure {name}",
+                "description": "Entities, calibration and guard values of this room. The room name is not editable here.",
+                "data": {
+                    "trvs": "TRV climate entities",
+                    "temp_sensor": "External temperature sensor",
+                    "deadband": "Deadband",
+                    "write_rate_limit_minutes": "Write rate limit",
+                    "staleness_minutes": "Staleness threshold",
+                    "update_interval_seconds": "Poll interval"
+                },
+                "data_description": {
+                    "trvs": "The real radiator thermostats of this room. All listed TRVs follow one shared target; 1-2 devices is the intended range.",
+                    "temp_sensor": "Optional: an absolute temperature measurement for the room. Set it to calibrate against the real room temperature; leave empty to use the mean of the TRV internal sensors plus the trim.",
+                    "deadband": "Smallest correction that triggers an offset write, in K. Smaller mismatches are ignored so the TRVs do not flap.",
+                    "write_rate_limit_minutes": "At most one offset write per TRV in this many minutes.",
+                    "staleness_minutes": "A measurement older than this many minutes counts as stale and causes no calibration writes. Setpoint and offset registers are exempt.",
+                    "update_interval_seconds": "How often the coordinator reads the TRVs and sensors and refreshes the virtual climate."
+                }
+            }
         }
-      }
     }
-  }
 }

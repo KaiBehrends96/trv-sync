@@ -1,0 +1,55 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Raum anlegen",
+                "description": "Ein Eintrag pro Raum: die echten TRV-Klima-Entitäten wählen, optional einen externen Temperatursensor, und die Guard-Werte setzen, die Offset-Schreibvorgänge bremsen.",
+                "data": {
+                    "name": "Zimmername",
+                    "trvs": "TRV-Klima-Entitäten",
+                    "temp_sensor": "Externer Temperatursensor",
+                    "deadband": "Totband",
+                    "write_rate_limit_minutes": "Schreibrate",
+                    "staleness_minutes": "Veraltungs-Schwelle",
+                    "update_interval_seconds": "Abrufintervall"
+                },
+                "data_description": {
+                    "name": "Erscheint am virtuellen Klima in der UI und dient als Name des Eintrags. Muss eindeutig sein und ist später nicht änderbar.",
+                    "trvs": "Die echten Heizkörperventile (thermostatischen Klima-Entitäten) dieses Raums. Alle aufgelisteten TRVs folgen einem gemeinsamen Ziel; 1-2 Geräte sind der vorgesehene Bereich.",
+                    "temp_sensor": "Optional: eine absolute Messung der Zimmertemperatur. Wenn gesetzt, kalibriert die Synchronisation dagegen; ohne wird der Mittelwert der TRV-internen Sensoren plus Trim verwendet.",
+                    "deadband": "Kleinste Korrektur, die einen Offset-Schreibvorgang auslöst (in K). Kleinere Abweichungen werden ignoriert, damit die TRVs nicht flattern.",
+                    "write_rate_limit_minutes": "Höchstens ein Offset-Schreibvorgang pro TRV in dieser Zahl von Minuten.",
+                    "staleness_minutes": "Messwerte älter als dieser Minuten gelten als veraltet und lösen keine Kalibrierungsschreibvorgänge aus. Sollwert- und Offset-Register sind ausgenommen.",
+                    "update_interval_seconds": "Wie oft der Koordinator die TRVs und Sensoren liest und das virtuelle Klima aktualisiert."
+                }
+            }
+        },
+        "error": {
+            "invalid_config": "Diese Werte bilden keine gültige Zimmerkonfiguration. Prüfe die gewählten Entitäten."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "{name} konfigurieren",
+                "description": "Entitäten, Kalibrierung und Guard-Werte dieses Raums. Der Zimmername ist hier nicht änderbar.",
+                "data": {
+                    "trvs": "TRV-Klima-Entitäten",
+                    "temp_sensor": "Externer Temperatursensor",
+                    "deadband": "Totband",
+                    "write_rate_limit_minutes": "Schreibrate",
+                    "staleness_minutes": "Veraltungs-Schwelle",
+                    "update_interval_seconds": "Abrufintervall"
+                },
+                "data_description": {
+                    "trvs": "Die echten Heizkörperventile (thermostatischen Klima-Entitäten) dieses Raums. Alle aufgelisteten TRVs folgen einem gemeinsamen Ziel; 1-2 Geräte sind der vorgesehene Bereich.",
+                    "temp_sensor": "Optional: eine absolute Messung der Zimmertemperatur. Wenn gesetzt, kalibriert die Synchronisation dagegen; ohne wird der Mittelwert der TRV-internen Sensoren plus Trim verwendet.",
+                    "deadband": "Kleinste Korrektur, die einen Offset-Schreibvorgang auslöst (in K). Kleinere Abweichungen werden ignoriert, damit die TRVs nicht flattern.",
+                    "write_rate_limit_minutes": "Höchstens ein Offset-Schreibvorgang pro TRV in dieser Zahl von Minuten.",
+                    "staleness_minutes": "Messwerte älter als dieser Minuten gelten als veraltet und lösen keine Kalibrierungsschreibvorgänge aus. Sollwert- und Offset-Register sind ausgenommen.",
+                    "update_interval_seconds": "Wie oft der Koordinator die TRVs und Sensoren liest und das virtuelle Klima aktualisiert."
+                }
+            }
+        }
+    }
+}
