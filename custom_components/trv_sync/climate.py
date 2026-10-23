@@ -10,7 +10,9 @@ from homeassistant.components.climate import (
 )
 from homeassistant.const import UnitOfTemperature
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
@@ -89,3 +91,13 @@ class TrvSyncClimate(CoordinatorEntity, ClimateEntity):
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         await self.coordinator.async_virtual_set_hvac_mode(str(hvac_mode))
+
+
+async def async_setup_entry(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
+    """Add the room's single virtual climate entity."""
+    coordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities([TrvSyncClimate(coordinator, entry)])

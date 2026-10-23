@@ -9,7 +9,9 @@ from __future__ import annotations
 
 from homeassistant.components.number import NumberEntity, NumberMode
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.restore_state import RestoreEntity
 
 from .const import DEFAULT_TRIM, DOMAIN
@@ -61,3 +63,13 @@ class TrvSyncTrimNumber(RestoreEntity, NumberEntity):
         except (TypeError, ValueError):
             return
         self._attr_native_value = max(_TRIM_RANGE[0], min(_TRIM_RANGE[1], value))
+
+
+async def async_setup_entry(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
+    """Add the room's single trim number entity."""
+    coordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities([TrvSyncTrimNumber(entry, coordinator.cfg)])
