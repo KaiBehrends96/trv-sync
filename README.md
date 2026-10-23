@@ -76,8 +76,10 @@ external sensor, guards). Development repo:
 
 1.0.0, first release 2026-10-23. Pilot room: HeizZimmer1.
 
-The full planning record is versioned in the repo at
-`docs/PLAN-2026-10-23-trv-sync.md`: the requirements, the decisions with their
-reasons, and the acceptance criteria. Check future changes against that file
-before they land; the acceptance criteria section doubles as the release
-checklist.
+The working contract is versioned in the repo at
+`docs/REQUIREMENTS.md`: numbered requirements R1-R20 with a per-requirement
+implementation status, plus acceptance criteria AC1-AC6 (which double as the
+pilot/release checklist). Check future changes against the R-numbers before
+they land. The full planning record with the decisions and their reasons is
+kept verbatim next to it: `docs/PLAN-2026-10-23-trv-sync.md`; on a conflict
+the requirements document wins.
