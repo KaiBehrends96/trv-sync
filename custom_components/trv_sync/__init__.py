@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import logging
 
-from homeassistant.components import Platform
+from homeassistant.const import Platform  # homeassistant.components re-export is gone in HA 2026.x
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryError
