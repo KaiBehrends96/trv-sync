@@ -116,6 +116,7 @@ class TrvSyncRoomCoordinator(DataUpdateCoordinator[RoomSnapshot]):
         self._room_mode: str = "heat"
         self._fallback_active = False
         self._seen_first_poll = False
+        self._startup_done = False
         self._trim_entity_id: str | None = None
 
     @property
@@ -329,12 +330,25 @@ class TrvSyncRoomCoordinator(DataUpdateCoordinator[RoomSnapshot]):
     # ---------------------------------------------------------------- setup
 
     def _startup_restore(self, readings: dict[str, TrvReading]) -> None:
-        """First poll after (re)start: derive target + mode from the devices."""
+        """Polls after (re)start: derive target + mode from the devices.
+
+        Retries every poll until it saw a setpoint: the first refresh runs
+        while HA is still starting, and there the Zigbee stack is frequently
+        not ready yet, so every device answers unavailable. A one-shot
+        restore in that state leaves the room without a target forever
+        (observed-change adoption never fires from a None base).
+        """
         self._room_target = logic.startup_room_target(
             r.setpoint for r in readings.values() if r.available
         )
         modes = [r.hvac_mode for r in readings.values() if r.available and r.hvac_mode]
         self._room_mode = "heat" if (not modes or "heat" in modes) else "off"
+        if self._room_target is None:
+            _LOGGER.debug(
+                "trv_sync %s: startup restore deferred, no setpoint seen yet", self._cfg.name
+            )
+            return
+        self._startup_done = True
         _LOGGER.info(
             "trv_sync %s: startup restore, target=%s mode=%s from TRV setpoints",
             self._cfg.name,
@@ -350,7 +364,7 @@ class TrvSyncRoomCoordinator(DataUpdateCoordinator[RoomSnapshot]):
         trim = self._read_trim()
         ext_value, ext_fresh = self._read_ext_sensor(now)
 
-        if not self._seen_first_poll:
+        if not self._startup_done:
             self._startup_restore(readings)
 
         # Room temperature: external sensor when fresh, else TRV fallback mean.

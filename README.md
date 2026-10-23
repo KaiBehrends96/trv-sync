@@ -74,7 +74,11 @@ external sensor, guards). Development repo:
 
 ## Status
 
-1.0.0, first release 2026-10-23. Pilot room: HeizZimmer1.
+1.0.3, 2026-10-23 (1.0.0 first release, 1.0.1/1.0.2 load-path fixes
+caught at first bring-up, 1.0.3 deferred startup restore). Pilot room:
+HeizZimmer1; its registry entities run as climate.heizzimer1 and
+number.trv_sync_heizzimer1_trim, the Better Thermostat room entry stays
+disabled as fallback (climate.heizzimer1_bt).
 
 The working contract is versioned in the repo at
 `docs/REQUIREMENTS.md`: numbered requirements R1-R20 with a per-requirement

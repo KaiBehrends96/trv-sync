@@ -7,7 +7,9 @@ decisions and their reasons is kept verbatim next to this file:
 `docs/PLAN-2026-10-23-trv-sync.md`. When code, README and this document
 disagree, this document wins and the fix goes to the loser.
 
-Status marks refer to v1.0.1 on the pilot room HeizZimmer1.
+Status marks refer to v1.0.3 on the pilot room HeizZimmer1. Bring-up
+findings folded in: 1.0.1 (Platform import path), 1.0.2 (missing platform
+setup glue), 1.0.3 (deferred startup restore, see R9).
 
 ## Functional
 
@@ -42,7 +44,11 @@ Status marks refer to v1.0.1 on the pilot room HeizZimmer1.
   heat = TRV hvac heat. `Status: implemented.`
 - **R9** Restart: room target = median of the TRV setpoints. Accepted caveat
   (plan): an intentionally off-value TRV against the room target is
-  clobbered back to the median after a restart. `Status: implemented.`
+  clobbered back to the median after a restart. Follow-up (1.0.3): the
+  first refresh can run while the Zigbee stack is still warming up, so its
+  one-shot restore saw no setpoints and left the room target unset
+  forever; the restore now retries every poll until it saw one.
+  `Status: implemented.`
 - **R10** No window-open logic, no device-side schedules fighting the
   setpoint sync: the coordinator forces foreign hvac modes (auto, cool, ...)
   back to heat every poll; the TRVZB must still be switched to manual mode
@@ -83,10 +89,13 @@ Status marks refer to v1.0.1 on the pilot room HeizZimmer1.
 
 - **AC1** Unit tests green for the pure helpers: offset math including
   double-count avoidance, clamp, quantize, median, staleness, override
-  semantics. `Status: done, 31 tests green as of v1.0.1.`
+  semantics. `Status: done, 31 tests - **AC1** Unit tests green for the pure helpers: offset math including
+  double-count avoidance, clamp, quantize, median, staleness, override
+  semantics. `Status: done, 31 tests green as of v1.0.3.`
 - **AC2** HeizZimmer1 pilot >= 24 h with no more than 1 offset write per TRV
   per hour in steady state (Better Thermostat 1.9.3 wrote dozens per
-  minute). `Status: pending pilot.`
+  minute). `Status: pending pilot.` (AC2 window started 23.10 with v1.0.3
+  on room HeizZimmer1, see pilot entries in the changelog.)
 - **AC3** A manual setpoint change on a TRV dial appears on the virtual
   climate within 2 polls and propagates to the other TRV.
   `Status: pending pilot.`
